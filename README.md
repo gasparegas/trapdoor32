@@ -1,68 +1,167 @@
 # TrapDoor32
 
 ```
-  █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
-  █  T R A P D O O R █
-  █  ░░░░░░░░░░░░░░░ █
-  █     3  2   ░░░░  █
-  █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
-```
+
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+█  T R A P D O O R █
+█  ░░░░░░░░░░░░░░░ █
+█     3  2   ░░░░  █
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+
+````
 
 ## Overview
 
-TrapDoor32 is an ESP32-based captive portal phish-testing framework designed for TTGO LoRa32 and similar boards. It provides a customizable login portal to capture credentials in a secure, educational environment.
+TrapDoor32 is an ESP32-based captive-portal credential tester for TTGO LoRa32 (and similar) boards.  
+It spins up an open WiFi AP, shows a customizable login UI to “capture” credentials, logs everything to SPIFFS, and lets you review/download data via a protected Admin Panel.
 
-- **Customizable UI**: Fully skinnable captive portal pages with support for static assets.
-- **Credential Logging**: Captures usernames/emails and passwords, stores them in SPIFFS.
-- **Admin Panel**: Access logged credentials via a protected admin interface.
-- **Lightweight**: Minimal dependencies and efficient storage management.
-- **Easy Setup**: One-file `main.cpp`, SPIFFS data folder, and PlatformIO configuration.
+- **Customizable captive portal** with social-login style buttons  
+- **Credential logging** (last 50 entries) in `/creds.json`  
+- **Runtime SSID management** via Admin Panel (no code reflashing)  
+- **Stats display** on the onboard TFT display  
+- **Minimal dependencies** (TFT_eSPI, ESPAsyncWebServer, ArduinoJson, SPIFFS)
 
 ## Installation
 
-1. Clone the repository:
+1. **Clone & build**
    ```bash
    git clone https://github.com/yourusername/TrapDoor32.git
    cd TrapDoor32
-   ```
-2. Install PlatformIO dependencies:
-   ```bash
    pio run
-   ```
-3. Upload to your TTGO LoRa32 (or compatible) board:
+````
+
+2. **Upload**
+
    ```bash
    pio run --target upload --environment ttgo-lora32-v1
    ```
-4. Monitor serial output:
+3. **Monitor** (optional)
+
    ```bash
-   pio device monitor -e ttgo-lora32-v1
+   pio device monitor --environment ttgo-lora32-v1
    ```
 
-## Usage
+## Quick Start
 
-1. Power up the board; it will create an open WiFi SSID `TrapDoor32`.
-2. Connect your device; the captive portal should automatically pop up.
-3. Choose a social provider or email login, enter credentials.
-4. Switch to the admin panel (at `/admin`) to review captured data.
+1. **Power on** the board.
+2. Connect to the open WiFi SSID (default: whatever you last saved, or `Free_WiFi` on first boot).
+3. The captive portal will pop up automatically on most devices.
+4. Choose a provider or email, enter any credentials—those get saved to SPIFFS.
+5. View live stats on the TFT display (clients & creds).
 
-## Project Structure
+## Admin Panel
+
+All administrative actions live under the `/admin` path:
+
+* **Download captured credentials** as JSON
+* **Change the AP SSID** on-the-fly (takes effect immediately)
+
+**Default admin credentials** (hard-coded in `main.cpp`):
+
+```
+User: admin
+Pwd : 1234
+```
+
+### How it works
+
+* **GET** `/admin`
+
+  * HTTP Basic auth (`admin` / `1234`)
+  * Serves `data/admin.html`, `data/admin.css`, `data/admin.js`
+* **GET** `/admin/creds.json`
+
+  * Authenticated download of captured `creds.json`
+* **POST** `/admin/wifi`
+
+  * Authenticated JSON body `{ "ssid": "NEW_NAME" }`
+  * Saves the new SSID into `/config.json` and restarts the SoftAP
+
+### Example Screenshots
+# TrapDoor32
+
+> Captive-portal phishing demonstrator for TTGO ESP32 with 1.14″ ST7789
+
+…
+
+## Admin Panel: Change SSID & Download Credentials
+
+Navigate to [`http://192.168.4.1/admin`](http://192.168.4.1/admin) (default user `admin`, pwd `1234`) to:
+
+1. **Download** your `creds.json` log  
+2. **Change** the Wi-Fi SSID on-the-fly  
+3. **Restart** the SoftAP under the new SSID automatically
+
+---
+
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      **1. Connect to Free_WiFi**  
+      <img src="docs/screenshots/1.png" width="200"/>
+    </td>
+    <td align="center">
+      **2. Captive window opens**  
+      <img src="docs/screenshots/2.png" width="200"/>
+    </td>
+    <td align="center">
+      **3. Custom login page**  
+      <img src="docs/screenshots/3.png" width="200"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      **4. Select “Instagram”**  
+      <img src="docs/screenshots/4.png" width="200"/>
+    </td>
+    <td align="center">
+      **5. TrapDoor32 Admin**  
+      <img src="docs/screenshots/5.png" width="200"/>
+    </td>
+    <td align="center">
+      **6. Change SSID form**  
+      <img src="docs/screenshots/6.png" width="200"/>
+    </td>
+  </tr>
+</table>
+
+---
+
+## Project Layout
 
 ```
 ├── src/
-│   └── main.cpp          # Core logic and portal handlers
+│   └── main.cpp           # Core logic (captive portal + admin + TFT UI)
 ├── data/
-│   ├── captive.html      # Captive portal HTML
-│   ├── style.css         # Shared styles
-│   ├── script.js         # Client-side logic
-│   └── icons/            # Social login icons
-├── platformio.ini        # Build and environment settings
-└── README.md             # Project documentation
+│   ├── captive.html       # Captive portal page
+│   ├── style.css
+│   ├── script.js
+│   ├── admin.html         # Admin Panel UI
+│   ├── admin.css
+│   ├── admin.js
+│   ├── icons/             # Social login icons
+│   └── screenshots/       # Example screenshots
+├── platformio.ini         # Build settings
+└── README.md              # Documentation
 ```
+
+## TFT Display
+
+* **Portrait** (vertical) mode
+* **Header** with logo text and separator line
+* Live refresh of:
+
+  * **Users** = current connected stations
+  * **Creds** = total captured entries
 
 ## Contributing
 
-Feel free to open issues, suggest features, or submit pull requests. All code should be properly documented in English.
+PRs and issues welcome! Please keep comments in English and only document non-trivial logic.
 
-## License
+---
 
-This project is released under the MIT License.
+*Released under the MIT License.*
+
+```
