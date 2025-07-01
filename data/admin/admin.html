@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TrapDoor32 Admin Panel</title>
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <h1>TrapDoor32 Admin</h1>
+  <nav>
+    <button id="btnCreds">Download Creds</button>
+    <button id="btnWifi">Change SSID</button>
+  </nav>
+
+  <section id="credsSection" class="active">
+    <a href="/admin/creds.json" download>Download Credentials JSON</a>
+  </section>
+
+  <section id="wifiSection">
+    <form id="wifiForm">
+      <label for="ssidInput">New SSID:</label>
+      <input type="text" id="ssidInput" placeholder="Enter new SSID" required>
+      <button type="submit">Save</button>
+    </form>
+    <p id="wifiResult"></p>
+  </section>
+
+  <script src="/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+}
+nav {
+  margin-bottom: 20px;
+}
+nav button {
+  padding: 8px 16px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+section {
+  display: none;
+  margin-top: 20px;
+}
+section.active {
+  display: block;
+}
+#wifiResult {
+  margin-top: 10px;
+}
