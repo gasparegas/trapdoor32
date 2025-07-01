@@ -1,14 +1,32 @@
 # TrapDoor32
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![PlatformIO](https://img.shields.io/badge/platformio-build-green.svg)](https://platformio.org/)
+[![CI](https://github.com/gasparegas/trapdoor32/actions/workflows/ci.yml/badge.svg)](https://github.com/gasparegas/trapdoor32/actions)
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Hardware](#device)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Admin Panel](#admin-panel)
+- [Screenshots](#screenshots)
+- [Project Layout](#project-layout)
+- [Contributing](#contributing)
+- [License](#license)
 
 ```
-
 █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
 █  T R A P D O O R █
 █  ░░░░░░░░░░░░░░░ █
 █     3  2   ░░░░  █
 █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
-
 ````
+## Device
+
+<img src="docs/screenshots/device.png" width="200" alt="TrapDoor32 on TTGO LoRa32"/>
+
+*TrapDoor32 running on a TTGO LoRa32 v1.1 (ST7789 1.14″).*
 
 ## Overview
 
@@ -28,7 +46,6 @@ It spins up an open WiFi AP, shows a customizable login UI to “capture” cred
    git clone https://github.com/yourusername/TrapDoor32.git
    cd TrapDoor32
    pio run
-````
 
 2. **Upload**
 
@@ -77,14 +94,7 @@ Pwd : 1234
   * Authenticated JSON body `{ "ssid": "NEW_NAME" }`
   * Saves the new SSID into `/config.json` and restarts the SoftAP
 
-### Example Screenshots
-# TrapDoor32
-
-> Captive-portal phishing demonstrator for TTGO ESP32 with 1.14″ ST7789
-
-…
-
-## Admin Panel: Change SSID & Download Credentials
+# Admin Panel: Change SSID & Download Credentials
 
 Navigate to [`http://192.168.4.1/admin`](http://192.168.4.1/admin) (default user `admin`, pwd `1234`) to:
 
@@ -94,35 +104,38 @@ Navigate to [`http://192.168.4.1/admin`](http://192.168.4.1/admin) (default user
 
 ---
 
+### Example Screenshots
+> Captive-portal phishing demonstrator for TTGO ESP32 with 1.14″ ST7789
+
 ## Screenshots
 
 <table>
   <tr>
     <td align="center">
       **1. Connect to Free_WiFi**  
-      <img src="docs/screenshots/1.png" width="200"/>
+      <img src="docs/screenshots/1.PNG" width="200"/>
     </td>
     <td align="center">
       **2. Captive window opens**  
-      <img src="docs/screenshots/2.png" width="200"/>
+      <img src="docs/screenshots/2.PNG" width="200"/>
     </td>
     <td align="center">
       **3. Custom login page**  
-      <img src="docs/screenshots/3.png" width="200"/>
+      <img src="docs/screenshots/3.PNG" width="200"/>
     </td>
   </tr>
   <tr>
     <td align="center">
       **4. Select “Instagram”**  
-      <img src="docs/screenshots/4.png" width="200"/>
+      <img src="docs/screenshots/4.PNG" width="200"/>
     </td>
     <td align="center">
       **5. TrapDoor32 Admin**  
-      <img src="docs/screenshots/5.png" width="200"/>
+      <img src="docs/screenshots/5.PNG" width="200"/>
     </td>
     <td align="center">
       **6. Change SSID form**  
-      <img src="docs/screenshots/6.png" width="200"/>
+      <img src="docs/screenshots/6.PNG" width="200"/>
     </td>
   </tr>
 </table>
@@ -162,6 +175,6 @@ PRs and issues welcome! Please keep comments in English and only document non-tr
 
 ---
 
-*Released under the MIT License.*
+## License
 
-```
+This project is released under the [MIT License](LICENSE).
