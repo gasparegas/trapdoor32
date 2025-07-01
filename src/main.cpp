@@ -149,7 +149,14 @@ void setup() {
   server.on("/fwlink", HTTP_ANY, handleNotFound);
   server.onNotFound(handleNotFound);
 
-  // Admin UI static files
+  // Serve credentials JSON with auth
+  server.on("/admin/creds.json", HTTP_GET, [](AsyncWebServerRequest *req){
+    if (!req->authenticate(ADMIN_USER, ADMIN_PWD)) 
+      return req->requestAuthentication();
+    req->send(SPIFFS, "/creds.json", "application/json");
+  });
+
+  // Serve admin UI static files
   server.on("/admin", HTTP_GET, [](AsyncWebServerRequest *req){
     if (!req->authenticate(ADMIN_USER, ADMIN_PWD))
       return req->requestAuthentication();
@@ -157,13 +164,6 @@ void setup() {
   });
   server.serveStatic("/admin.css", SPIFFS, "/admin/admin.css");
   server.serveStatic("/admin.js",  SPIFFS, "/admin/admin.js");
-
-  // Serve creds JSON
-  server.on("/admin/creds.json", HTTP_GET, [](AsyncWebServerRequest *req){
-    if (!req->authenticate(ADMIN_USER, ADMIN_PWD))
-      return req->requestAuthentication();
-    req->send(SPIFFS, "/creds.json", "application/json");
-  });
 
   // Change SSID API
   server.on("/admin/wifi", HTTP_POST, [](AsyncWebServerRequest *req){},
