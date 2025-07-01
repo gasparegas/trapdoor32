@@ -1,21 +1,37 @@
-name: 📦 Release
-
+name: Release
 on:
   push:
     branches:
-      - master
+      - master  # or main, depending on your branch name
+
+permissions:
+  contents: write     # required to push tags/releases
+  issues: write       # required for @semantic-release/github to open/close issues
+  packages: write     # required if publishing to npm
+  pull-requests: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          node-version: "18"
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
+
       - name: Install dependencies
-        run: npm ci              # ora avrai il package-lock.json
-      - name: Run semantic-release
+        run: npm ci
+
+      - name: Semantic Release
+        run: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run release
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
